@@ -1,0 +1,155 @@
+doctype html
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    title Doma 2 - Java 8 時代のDBアクセス
+
+    // build:css styles/styles.css
+    //- Check out 'src/bower_components/prism/themes/' for available themes
+    link(rel='stylesheet', type='text/css', href='bower_components/prism/themes/prism-tomorrow.css')
+    link(rel='stylesheet', type='text/css', href='styles/main.css')
+    // endbuild
+
+  body
+
+    article
+
+      section
+        h1 Doma 2
+        h2 Java 8 時代のDBアクセス
+
+      section
+        h2.bullet 自己紹介
+        hr
+        ul
+          li 中村
+          li twitter: 
+            a(href='https://twitter.com/nakamura_to') @nakamura_to
+          li GitHub: 
+            a(href='https://github.com/nakamura-to') nakamura-to
+
+      section
+        h2.bullet Java 8の新機能
+        h3
+          ul
+            li ラムダ式
+            li Stream API
+            li Date and Time API
+            li Optional
+            li デフォルトメソッド
+        h3.bullet 
+          strong これ全部 Doma 2 で使えます！
+
+      section
+        h2.bullet Doma とは？
+        h3
+          ul
+            li S2Daoから発展したDBアクセスライブラリ
+            li 2 way SQL
+            li 注釈処理
+            li 依存ライブラリ 0
+            li Doma 1 は Java 6 以上で動作
+        h3.bullet 
+          strong Doma 2 はDoma 1 を Java 8 に最適化
+
+      section
+        h2 ラムダ式 & Stream API
+        hr
+        ul
+          li
+            pre
+              code.language-java
+                :code
+                  @Dao
+                  public interface EmpDao {
+                    @Select(strategy = SelectType.STREAM)
+                    void selectAll(Function<Stream<Emp>, Void> mapper);
+                  }
+          li
+            pre
+              code.language-java
+                :code
+                  dao.selectAll(s -> s.map(this::convert)
+                                      .filter(this::isValid)
+                                      .forEach(this::println));
+
+      section
+        h2 Date and Time API
+        pre
+          code.language-java
+            :code
+              @Entity
+              public class Emp {
+                private LocalDate hiredDate;
+                private LocalDateTime updatedAt;
+                ...
+              }
+
+      section
+        h2 Optional
+        hr
+        pre
+          code.language-java
+            :code
+              @Dao
+              public interface EmpDao {
+                @Select
+                Optional<Emp> selectById(Integer id);
+              }
+
+      section
+        h2 デフォルトメソッド
+        hr
+        pre
+          code.language-java
+            :code
+              @Dao
+              public interface EmpDao {
+                default Optional<Emp> selectById(Integer id) {
+                  Config config = Config.get(this);
+                  DataSource ds = config.getDataSource();
+                  ...
+                }
+              }
+
+      section(data-bespoke-state='emphatic')
+        h2.bullet 興味持っていただけました？
+
+      section
+        h2.bullet Doma 2 情報
+        hr
+        ul
+          li GitHub リポジトリ: 
+            a(href='https://github.com/domaframework/doma') domaframework/doma
+          li 最新バージョン: 2.0-beta-3
+          li ドキュメント: 
+            a(href='http://doma.rtfd.org') doma.rtfd.org
+          li Maven リポジトリ: Maven Central Repository
+        hr
+        ul
+          li ビルドツール: Gradle
+          li CI: Travis-CI (PostgreSQL, MySQL)
+
+      section
+        h2.bullet Thank you
+        hr
+        ul
+          li
+            strong Enjoy! -
+            a(href='http://twitter.com/nakamura_to') @nakamura_to
+
+    // build:js scripts/scripts.js
+    script(src='bower_components/bespoke.js/dist/bespoke.min.js')
+    script(src='bower_components/bespoke-keys/dist/bespoke-keys.min.js')
+    script(src='bower_components/bespoke-touch/dist/bespoke-touch.min.js')
+    script(src='bower_components/bespoke-bullets/dist/bespoke-bullets.min.js')
+    script(src='bower_components/bespoke-scale/dist/bespoke-scale.min.js')
+    script(src='bower_components/bespoke-hash/dist/bespoke-hash.min.js')
+    script(src='bower_components/bespoke-progress/dist/bespoke-progress.min.js')
+    script(src='bower_components/bespoke-state/dist/bespoke-state.min.js')
+    script(src='bower_components/bespoke-forms/dist/bespoke-forms.min.js')
+    script(src='bower_components/prism/prism.js')
+    script(src='bower_components/prism/components/prism-java.js')
+    script(src='scripts/main.js')
+    // endbuild
