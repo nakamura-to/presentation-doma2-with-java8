@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>Doma 2 - Java 8 時代のDBアクセス</title>
+    <link rel="stylesheet" href="styles/styles.css"/>
+  </head>
+  <body>
+    <article>
+      <section>
+        <h1>Doma 2</h1>
+        <h2>Java 8 時代のDBアクセス</h2>
+      </section>
+      <section>
+        <h2 class="bullet">自己紹介</h2>
+        <hr>
+        <ul>
+          <li>中村</li>
+          <li>twitter: <a href="https://twitter.com/nakamura_to">@nakamura_to</a></li>
+          <li>GitHub: <a href="https://github.com/nakamura-to">nakamura-to</a></li>
+        </ul>
+      </section>
+      <section>
+        <h2 class="bullet">Java 8の新機能</h2>
+        <h3>
+          <ul>
+            <li>ラムダ式</li>
+            <li>Stream API</li>
+            <li>Date and Time API</li>
+            <li>Optional</li>
+            <li>デフォルトメソッド</li>
+          </ul>
+        </h3>
+        <h3 class="bullet"><strong>これ全部 Doma 2 で使えます！</strong></h3>
+      </section>
+      <section>
+        <h2 class="bullet">Doma とは？</h2>
+        <h3>
+          <ul>
+            <li>S2Daoから発展したDBアクセスライブラリ</li>
+            <li>2 way SQL</li>
+            <li>注釈処理</li>
+            <li>依存ライブラリ 0</li>
+            <li>Doma 1 は Java 6 以上で動作</li>
+          </ul>
+        </h3>
+        <h3 class="bullet"><strong>Doma 2 はDoma 1 を Java 8 に最適化</strong></h3>
+      </section>
+      <section>
+        <h2>ラムダ式 & Stream API</h2>
+        <hr>
+        <ul>
+          <li>
+            <pre><code class="language-java">@Dao
+public interface EmpDao {
+  @Select(strategy = SelectType.STREAM)
+  void selectAll(Function&lt;Stream&lt;Emp&gt;, Void&gt; mapper);
+}</code></pre>
+          </li>
+          <li>
+            <pre><code class="language-java">dao.selectAll(s -&gt; s.map(this::convert)
+                    .filter(this::isValid)
+                    .forEach(this::println));
+                    </code></pre>
+          </li>
+        </ul>
+      </section>
+      <section>
+        <h2>Date and Time API</h2>
+        <pre><code class="language-java">@Entity
+public class Emp {
+  private LocalDate hiredDate;
+  private LocalDateTime updatedAt;
+  ...
+}
+</code></pre>
+      </section>
+      <section>
+        <h2>Optional</h2>
+        <hr>
+        <pre><code class="language-java">@Dao
+public interface EmpDao {
+  @Select
+  Optional&lt;Emp&gt; selectById(Integer id);
+}
+</code></pre>
+      </section>
+      <section>
+        <h2>デフォルトメソッド</h2>
+        <hr>
+        <pre><code class="language-java">@Dao
+public interface EmpDao {
+  default Optional&lt;Emp&gt; selectById(Integer id) {
+    Config config = Config.get(this);
+    DataSource ds = config.getDataSource();
+    ...
+  }
+}
+</code></pre>
+      </section>
+      <section data-bespoke-state="emphatic">
+        <h2 class="bullet">興味持っていただけました？</h2>
+      </section>
+      <section>
+        <h2 class="bullet">Doma 2 情報</h2>
+        <hr>
+        <ul>
+          <li>GitHub リポジトリ: <a href="https://github.com/domaframework/doma">domaframework/doma</a></li>
+          <li>最新バージョン: 2.0-beta-3</li>
+          <li>ドキュメント: <a href="http://doma.rtfd.org">doma.rtfd.org</a></li>
+          <li>Maven リポジトリ: Maven Central Repository</li>
+        </ul>
+        <hr>
+        <ul>
+          <li>ビルドツール: Gradle</li>
+          <li>CI: Travis-CI (PostgreSQL, MySQL)</li>
+        </ul>
+      </section>
+      <section>
+        <h2 class="bullet">Thank you</h2>
+        <hr>
+        <ul>
+          <li><strong>Enjoy! -</strong><a href="http://twitter.com/nakamura_to">@nakamura_to</a></li>
+        </ul>
+      </section>
+    </article>
+    <script src="scripts/scripts.js"></script>
+  </body>
+</html>
