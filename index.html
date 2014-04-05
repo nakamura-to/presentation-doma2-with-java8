@@ -48,7 +48,19 @@
         <h3 class="bullet"><strong>Doma 2 はDoma 1 を Java 8 に最適化</strong></h3>
       </section>
       <section>
-        <h2>ラムダ式 & Stream API</h2>
+        <h2>ラムダ式</h2>
+        <hr>
+        <pre><code class="language-java">TransactionManager tm = ...
+
+tm.required(() -&gt; {
+  Emp emp = dao.selectById(1);
+  emp.setAge(emp.getAge() + 1);
+  dao.update(emp);
+});
+</code></pre>
+      </section>
+      <section>
+        <h2>Stream API</h2>
         <hr>
         <ul>
           <li>
